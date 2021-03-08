@@ -42,16 +42,16 @@ Keeping these assumptions and limitations, I formualted the following questions 
  The history file `swetaKafka-8-history.txt` consists of the commands on how to start a container with docker. The `docker-compose.yml` file includes the connections to zookeeper, kafka, mids, coursera and spark. I created a kafka topic with the name **assess** because it is relevant to the course assessment pipeline that I am about to build. I used Curl to get the JSON data and produce messages after connecting through kafka. Finally, I connect to Spark (Notebook `SwetaBee_project2_assess.ipynb`) in order to transform the extracted data and run some queries.
  Following are some highlights from the history file that I used to produce messages in Kafka:
  
- git clone https://github.com/mids-w205-de-sola/project-2-SwetaBee.git
- cd project-2-SwetaBee/
- git branch assignment
- git checkout assignment
- docker-compose up -d
- docker-compose logs -f kafka
- curl -L -o assessment-attempts-20180128-121051-nested.json https://goo.gl/ME6hjp
- docker-compose exec kafka kafka-topics --create --topic assess --partitions 1 --replication-factor 1 --if-not-exists --zookeeper zookeeper:32181
- docker-compose exec kafka kafka-topics --describe --topic assess --zookeeper zookeeper:32181
- docker-compose exec mids bash -c "cat /w205/spark-with-kafka-and-hdfs/assessment-attempts-20180128-121051-nested.json | jq '.[]' -c | kafkacat -P -b kafka:29092 -t assess"
- docker-compose exec cloudera hadoop fs -ls /tmp/
- docker-compose exec spark env PYSPARK_DRIVER_PYTHON=jupyter PYSPARK_DRIVER_PYTHON_OPTS='notebook --no-browser --port 8888 --ip 0.0.0.0 --allow-root --notebook-dir=/w205/' pyspark
+ git clone https://github.com/mids-w205-de-sola/project-2-SwetaBee.git <br>
+ cd project-2-SwetaBee/<br>
+ git branch assignment<br>
+ git checkout assignment<br>
+ docker-compose up -d<br>
+ docker-compose logs -f kafka<br>
+ curl -L -o assessment-attempts-20180128-121051-nested.json https://goo.gl/ME6hjp<br>
+ docker-compose exec kafka kafka-topics --create --topic assess --partitions 1 --replication-factor 1 --if-not-exists --zookeeper zookeeper:32181<br>
+ docker-compose exec kafka kafka-topics --describe --topic assess --zookeeper zookeeper:32181<br>
+ docker-compose exec mids bash -c "cat /w205/spark-with-kafka-and-hdfs/assessment-attempts-20180128-121051-nested.json | jq '.[]' -c | kafkacat -P -b kafka:29092 -t assess"<br>
+ docker-compose exec cloudera hadoop fs -ls /tmp/<br>
+ docker-compose exec spark env PYSPARK_DRIVER_PYTHON=jupyter PYSPARK_DRIVER_PYTHON_OPTS='notebook --no-browser --port 8888 --ip 0.0.0.0 --allow-root --notebook-dir=/w205/' pyspark<br>
  
